@@ -1,0 +1,74 @@
+--- 
+database:
+  adapter: mysql
+  username: root
+  password:
+  host: localhost
+  database: testor
+
+repositories: 
+- name: dm-core
+  url: http://github.com/datamapper/dm-core
+- name: dm-active_model
+  url: http://github.com/datamapper/dm-active_model
+- name: dm-transactions
+  url: http://github.com/datamapper/dm-transactions
+- name: dm-mysql-adapter
+  url: http://github.com/datamapper/dm-mysql-adapter
+- name: dm-postgres-adapter
+  url: http://github.com/datamapper/dm-postgres-adapter
+- name: dm-sqlite-adapter
+  url: http://github.com/datamapper/dm-sqlite-adapter
+- name: dm-oracle-adapter
+  url: http://github.com/datamapper/dm-oracle-adapter
+- name: dm-sqlserver-adapter
+  url: http://github.com/datamapper/dm-sqlserver-adapter
+- name: dm-do-adapter
+  url: http://github.com/datamapper/dm-do-adapter
+- name: dm-yaml-adapter
+  url: http://github.com/datamapper/dm-yaml-adapter
+- name: dm-adjust
+  url: http://github.com/datamapper/dm-adjust
+- name: dm-aggregates
+  url: http://github.com/datamapper/dm-aggregates
+- name: dm-ar-finders
+  url: http://github.com/datamapper/dm-ar-finders
+- name: dm-cli
+  url: http://github.com/datamapper/dm-cli
+- name: dm-constraints
+  url: http://github.com/datamapper/dm-constraints
+- name: dm-is-list
+  url: http://github.com/datamapper/dm-is-list
+- name: dm-is-nested_set
+  url: http://github.com/datamapper/dm-is-nested_set
+- name: dm-is-remixable
+  url: http://github.com/datamapper/dm-is-remixable
+- name: dm-is-searchable
+  url: http://github.com/datamapper/dm-is-searchable
+- name: dm-is-state_machine
+  url: http://github.com/datamapper/dm-is-state_machine
+- name: dm-is-tree
+  url: http://github.com/datamapper/dm-is-tree
+- name: dm-is-versioned
+  url: http://github.com/datamapper/dm-is-versioned
+- name: dm-migrations
+  url: http://github.com/datamapper/dm-migrations
+- name: dm-observer
+  url: http://github.com/datamapper/dm-observer
+- name: dm-serializer
+  url: http://github.com/datamapper/dm-serializer
+- name: dm-sweatshop
+  url: http://github.com/datamapper/dm-sweatshop
+- name: dm-tags
+  url: http://github.com/datamapper/dm-tags
+- name: dm-timestamps
+  url: http://github.com/datamapper/dm-timestamps
+- name: dm-types
+  url: http://github.com/datamapper/dm-types
+- name: dm-validations
+  url: http://github.com/datamapper/dm-validations
+- name: dm-ferret-adapter
+  url: http://github.com/datamapper/dm-ferret-adapter
+- name: dm-rest-adapter
+  url: http://github.com/datamapper/dm-rest-adapter
+
