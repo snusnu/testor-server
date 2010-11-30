@@ -27,16 +27,18 @@ module Testor
 
         def run
           @running = true
-          accept
-          execute
-          report
+          if accept
+            execute
+            report
+          end
           @running = false
           @success
         end
 
         def accept
           puts "ACCEPTING: job.id = #{self.id}"
-          RestClient.post("#{service}/jobs/accept", { :id => self.id })
+          response = JSON.parse(RestClient.post("#{service}/jobs/accept", { :id => self.id }))
+          response['accepted']
         end
 
         def execute

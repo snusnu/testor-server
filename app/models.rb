@@ -19,7 +19,7 @@ module Testor
 
   def self.accept_job(id)
     job = Persistence::Job.get(id)
-    job.accept
+    { 'accepted' => job.accept }.to_json
   end
 
   def self.report_job(report)
@@ -131,7 +131,7 @@ module Testor
       end
 
       def accept
-        update(:status => PROCESSING)
+        available? ? update(:status => PROCESSING) : false
       end
 
       def update_status(successful)
