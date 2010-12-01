@@ -1,22 +1,96 @@
-{{#libraries}}
-  <h2>{{name}}</h2>
-  <table>
+<html>
+  <head>
+    <style type="text/css">
+      body {
+        font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
 
-    <th>
-    {{#adapters}}
-      <td>{{name}}</td>
-    {{/adapters}}
-    </th>
+      h1, h2, h3, h4, h5, h6 {
 
-    {{#platforms}}
-    <tr>
-      <td>{{name}}</td>
-      {{#adapters}}
-      <td>{{status}}</td>
-      {{/adapters}}
-    </tr>
-    {{/platforms}}
+      }
 
-  </table>
-{{/libraries}}
+      h2 {
+        font-size: 120%;
+      }
 
+      li {
+        float: left;
+        margin-right: 4em;
+        margin-bottom:5em;
+      }
+
+      tr {
+
+      }
+
+      th {
+        font-weight: normal;
+        color: rgba(0,0,0,0.7);
+        vertical-align: middle;
+        text-align: right;
+      }
+
+      th.top {
+        text-align: center;
+      }
+
+      td {
+        text-align: center;
+        padding: 0.3em 0.4em;
+        vertical-align: middle;
+        border: solid 3px #fff;
+        border-radius: 6px;
+        margin: 4px 8px;
+      }
+
+      td.fail {
+        background-color: #A60D33;
+        color: #fff;
+        font-weight: 500;
+
+      }
+
+      td.pass {
+        background-color: #339139;
+        color: #fff;
+      }
+
+      td.modified {
+        color: #DDE876;
+      }
+
+      td.processing {
+        color: rgba(0,0,0,0.6);
+      }
+
+    </style>
+  </head>
+  <body>
+    <ul>
+    {{#libraries}}
+    <li>
+      <h2>{{name}}</h2>
+      <table>
+
+        <tr>
+          <th></th>
+        {{#adapters}}
+          <th class="top">{{name}}</th>
+        {{/adapters}}
+        </tr>
+
+        {{#platforms}}
+        <tr>
+          <th>{{name}}</th>
+          {{#adapters}}
+          <td class="{{status}} {{previous_status}}">{{status}}</td>
+          {{/adapters}}
+        </tr>
+        {{/platforms}}
+
+      </table>
+    </li>
+    {{/libraries}}
+    </ul>
+  </body>
+</html>

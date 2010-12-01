@@ -20,13 +20,15 @@ module Testor
               {
                 :name     => platform.name,
                 :adapters => library.adapters.map { |adapter|
+                  job = Persistence::Job.first(
+                    :library  => library,
+                    :platform => platform,
+                    :adapter  => adapter
+                  )
                   {
                     :name   => adapter.name,
-                    :status => Persistence::Job.first(
-                      :library  => library,
-                      :platform => platform,
-                      :adapter  => adapter
-                    ).status
+                    :status => job.status,
+                    :previous_status => job.previous_status ? 'pass' : 'fail'
                   }
                 }
 

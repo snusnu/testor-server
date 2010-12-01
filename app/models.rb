@@ -147,6 +147,11 @@ module Testor
         self.status == MODIFIED
       end
 
+      def previous_status
+        report = reports.last(:order => [:created_at.asc])
+        report ? report.green? : false
+      end
+
     end
 
     class Report
