@@ -102,12 +102,13 @@ module Testor
 
       include DataMapper::Resource
 
-      AVAILABLE  = 'available'
+      MODIFIED   = 'modified'
       PROCESSING = 'processing'
-      COMPLETE   = 'complete'
+      FAIL       = 'fail'
+      PASS       = 'pass'
 
       property :id,     Serial
-      property :status, String, :set => [AVAILABLE, PROCESSING, COMPLETE]
+      property :status, String, :set => [MODIFIED, PROCESSING, FAIL, PASS]
 
       belongs_to :platform
       belongs_to :adapter
@@ -116,7 +117,7 @@ module Testor
       has n, :reports
 
       def self.available
-        all(:status => AVAILABLE)
+        all(:status => FAIL) | all(:status => MODIFIED)
       end
 
       def self.register_commit(gem_name)
@@ -135,13 +136,17 @@ module Testor
       end
 
       def update_status(successful)
-        unless available? # this means that upstream code has changed
-          update(:status => successful ? COMPLETE : AVAILABLE)
-        end
+        return false if modified?
+        update(:status => successful ? PASS : FAIL)
+        true
+      end
+
+      def modified?
+        self.status == MODIFIED
       end
 
       def available?
-        self.status == AVAILABLE
+        self.status == FAIL || modified?
       end
 
     end

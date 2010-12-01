@@ -41,7 +41,7 @@ namespace :db do
       library.platforms.each do |platform|
         platform.adapters.each do |adapter|
           Testor::Persistence::Job.create(
-            :status   => 'available',
+            :status   => Testor::Persistence::Job::MODIFIED,
             :platform => platform,
             :adapter  => adapter,
             :library  => library
