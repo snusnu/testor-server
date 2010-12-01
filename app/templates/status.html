@@ -1,0 +1,22 @@
+{{#libraries}}
+  <h2>{{name}}</h2>
+  <table>
+
+    <th>
+    {{#adapters}}
+      <td>{{name}}</td>
+    {{/adapters}}
+    </th>
+
+    {{#platforms}}
+    <tr>
+      <td>{{name}}</td>
+      {{#adapters}}
+      <td>{{status}}</td>
+      {{/adapters}}
+    </tr>
+    {{/platforms}}
+
+  </table>
+{{/libraries}}
+

@@ -1,5 +1,10 @@
+require 'pathname'
+
 require 'sinatra/base'
 require 'models'
+require 'views'
+
+require 'mustache/sinatra'
 
 module Testor
 
@@ -7,9 +12,18 @@ module Testor
 
     class Server < Sinatra::Base
 
+      register Mustache::Sinatra
+
+      set :mustache, {
+        :namespace => Testor::Distribution::Views
+      }
+
+      get '/status' do
+        Views::Status.new.render
+      end
+
       get '/jobs/next' do
-        previous_jobs = params[:previous_jobs].split(',')
-        Testor.next_job(previous_jobs).to_json(
+        Testor.next_job(params[:previous_jobs].split(',')).to_json(
           :only    => [:id],
           :methods => [:library, :platform, :adapter]
         )

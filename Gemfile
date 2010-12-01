@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
+gem 'mustache'
 
 gem 'dm-core',          :git => 'git://github.com/datamapper/dm-core'
 gem 'dm-migrations',    :git => 'git://github.com/datamapper/dm-migrations'

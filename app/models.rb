@@ -72,6 +72,7 @@ module Testor
       property :url,  URI,    :required => true
 
       has n, :platforms, :through => Resource
+      has n, :adapters,  :through => :platforms
 
     end
 
