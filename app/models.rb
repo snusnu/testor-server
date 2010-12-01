@@ -133,7 +133,7 @@ module Testor
       end
 
       def accept
-        available? ? update(:status => PROCESSING) : false
+        modified? ? update(:status => PROCESSING) : false
       end
 
       def update_status(successful)
@@ -144,10 +144,6 @@ module Testor
 
       def modified?
         self.status == MODIFIED
-      end
-
-      def available?
-        self.status == FAIL || modified?
       end
 
     end
