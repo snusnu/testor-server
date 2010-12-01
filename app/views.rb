@@ -19,7 +19,7 @@ module Testor
             result[:platforms] = library.platforms.map do |platform|
               {
                 :name     => platform.name,
-                :adapters => platform.adapters.map { |adapter|
+                :adapters => library.adapters.map { |adapter|
                   {
                     :name   => adapter.name,
                     :status => Persistence::Job.first(

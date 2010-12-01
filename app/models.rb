@@ -72,7 +72,7 @@ module Testor
       property :url,  URI,    :required => true
 
       has n, :platforms, :through => Resource
-      has n, :adapters,  :through => :platforms
+      has n, :adapters,  :through => Resource
 
     end
 
@@ -83,8 +83,8 @@ module Testor
       property :id,   Serial
       property :name, String, :required => true
 
-      has n, :adapters,  :through => Resource
       has n, :libraries, :through => Resource
+      has n, :adapters,  :through => :libraries
 
     end
 
@@ -96,6 +96,7 @@ module Testor
       property :name, String, :required => true
 
       has n, :platforms, :through => Resource
+      has n, :libraries, :through => Resource
 
     end
 
