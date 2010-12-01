@@ -23,7 +23,8 @@ module Testor
       end
 
       get '/jobs/next' do
-        Testor.next_job(params[:previous_jobs].split(',')).to_json(
+        job = Testor.next_job(params[:previous_jobs].split(',')) || {}
+        job.to_json(
           :only    => [:id],
           :methods => [:library, :platform, :adapter]
         )
