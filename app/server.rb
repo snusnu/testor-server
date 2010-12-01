@@ -7,8 +7,12 @@ module Testor
 
     class Server < Sinatra::Base
 
-      get '/jobs' do
-        Testor.list_jobs.to_json(:only => [:id], :methods => [:library, :platform, :adapter])
+      get '/jobs/next' do
+        previous_jobs = params[:previous_jobs].split(',')
+        Testor.next_job(previous_jobs).to_json(
+          :only    => [:id],
+          :methods => [:library, :platform, :adapter]
+        )
       end
 
       post '/commits' do

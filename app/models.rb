@@ -9,8 +9,8 @@ require 'dm-serializer/to_json'
 
 module Testor
 
-  def self.list_jobs
-    Persistence::Job.available
+  def self.next_job(previous_jobs)
+    Persistence::Job.available(previous_jobs).first
   end
 
   def self.register_commit(commit)
@@ -116,8 +116,8 @@ module Testor
 
       has n, :reports
 
-      def self.available
-        all(:status => FAIL) | all(:status => MODIFIED)
+      def self.available(previous_jobs)
+        all(:id.not => previous_jobs) & (all(:status => FAIL) | all(:status => MODIFIED))
       end
 
       def self.register_commit(gem_name)
