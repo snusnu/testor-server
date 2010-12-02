@@ -32,7 +32,7 @@ module Testor
       end
 
       post '/commits' do
-        push    = JSON.parse(commit[:payload])
+        push    = JSON.parse(params[:payload])
         library = push['repository']['name']
         Testor.register_commit(library)
       end
