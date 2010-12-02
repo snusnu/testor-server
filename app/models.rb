@@ -124,7 +124,7 @@ module Testor
       end
 
       def self.register_commit(gem_name)
-        all(:gem => Library.first(:name => gem_name)).each { |job| job.update_status(MODIFIED) }
+        all(:library => Library.first(:name => gem_name)).each { |job| job.update_status(MODIFIED) }
       end
 
       def create_report(report_attributes)
