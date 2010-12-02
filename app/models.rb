@@ -13,8 +13,8 @@ module Testor
     Persistence::Job.available(previous_jobs).first
   end
 
-  def self.register_commit(commit)
-    Persistence::Job.register_commit(commit['repository']['name'])
+  def self.register_commit(library_name)
+    Persistence::Job.register_commit(library_name)
   end
 
   def self.accept_job(id)

@@ -1,5 +1,6 @@
 require 'pathname'
 
+require 'json'
 require 'sinatra/base'
 require 'models'
 require 'views'
@@ -31,7 +32,9 @@ module Testor
       end
 
       post '/commits' do
-        Testor.register_commit(params)
+        push    = JSON.parse(commit[:payload])
+        library = push['repository']['name']
+        Testor.register_commit(library)
       end
 
       post '/jobs/accept' do
