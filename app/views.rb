@@ -26,9 +26,9 @@ module Testor
                     :adapter  => adapter
                   )
                   {
-                    :name   => adapter.name,
-                    :status => job.status,
-                    :previous_status => job.previous_status ? 'pass' : 'fail'
+                    :name            => adapter.name,
+                    :status          => job.status,
+                    :previous_status => job.previous_status
                   }
                 }
 

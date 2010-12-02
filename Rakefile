@@ -33,6 +33,7 @@ namespace :db do
 
     special_gems = %w[
       dm-active_model
+      dm-yaml-adapter
       dm-sqlite-adapter
       dm-postgres-adapter
       dm-mysql-adapter

@@ -108,9 +108,10 @@ module Testor
       PROCESSING = 'processing'
       FAIL       = 'fail'
       PASS       = 'pass'
+      SKIPPED    = 'skipped'
 
       property :id,     Serial
-      property :status, String, :set => [MODIFIED, PROCESSING, FAIL, PASS]
+      property :status, String, :required => true, :set => [MODIFIED, PROCESSING, FAIL, PASS, SKIPPED]
 
       belongs_to :platform
       belongs_to :adapter
@@ -119,37 +120,40 @@ module Testor
       has n, :reports
 
       def self.available(previous_jobs)
-        all(:id.not => previous_jobs) & (all(:status => FAIL) | all(:status => MODIFIED))
+        all(:id.not => previous_jobs) & (all(:status => MODIFIED) | all(:status => SKIPPED))
       end
 
       def self.register_commit(gem_name)
-        all(:gem => Gem.first(:name => gem_name)).each { |job| job.update_status(false) }
+        all(:gem => Gem.first(:name => gem_name)).each { |job| job.update_status(MODIFIED) }
       end
 
       def create_report(report_attributes)
         transaction do
           report = reports.create(report_attributes)
-          update_status(report.green?)
+          update_status(report_attributes['status'])
         end
       end
 
       def accept
-        modified? ? update(:status => PROCESSING) : false
+        modified? || skipped? ? update(:status => PROCESSING) : false
       end
 
-      def update_status(successful)
+      def update_status(status)
         return false if modified?
-        update(:status => successful ? PASS : FAIL)
-        true
+        update(:status => status)
       end
 
       def modified?
         self.status == MODIFIED
       end
 
+      def skipped?
+        self.status == SKIPPED
+      end
+
       def previous_status
         report = reports.last(:order => [:created_at.asc])
-        report ? report.green? : false
+        report ? report.status : FAIL
       end
 
     end
@@ -159,7 +163,7 @@ module Testor
       include DataMapper::Resource
 
       property :id,         Serial
-      property :green,      Boolean, :required => true, :default => false
+      property :status,     String, :required => true, :set => [Job::PASS, Job::FAIL, Job::SKIPPED]
       property :created_at, DateTime
 
       belongs_to :job
