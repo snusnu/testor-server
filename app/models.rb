@@ -9,17 +9,17 @@ require 'dm-serializer/to_json'
 
 module Testor
 
-  def self.next_job(previous_jobs)
-    Persistence::Job.available(previous_jobs).first
+  def self.next_job(previous_jobs, status)
+    Persistence::Job.available(previous_jobs, status).first
   end
 
   def self.register_commit(library_name)
     Persistence::Job.register_commit(library_name)
   end
 
-  def self.accept_job(id)
+  def self.accept_job(id, status)
     job = Persistence::Job.get(id)
-    { 'accepted' => job.accept }.to_json
+    { 'accepted' => job.accept(status) }.to_json
   end
 
   def self.report_job(report)
@@ -119,8 +119,13 @@ module Testor
 
       has n, :reports
 
-      def self.available(previous_jobs)
-        all(:id.not => previous_jobs) & (all(:status => MODIFIED) | all(:status => SKIPPED))
+      def self.available(previous_jobs, status)
+        matching_status = if status.empty?
+          all(:status => MODIFIED) | all(:status => SKIPPED)
+        else
+          all(:status => status)
+        end
+        all(:id.not => previous_jobs) & matching_status
       end
 
       def self.register_commit(gem_name)
@@ -134,8 +139,9 @@ module Testor
         end
       end
 
-      def accept
-        modified? || skipped? ? update(:status => PROCESSING) : false
+      def accept(status)
+        allowed = status.empty? ? (modified? || skipped?) : true
+        allowed ? update(:status => PROCESSING) : false
       end
 
       def update_status(status)

@@ -24,7 +24,9 @@ module Testor
       end
 
       get '/jobs/next' do
-        job = Testor.next_job(params[:previous_jobs].split(',')) || {}
+        previous_jobs = params[:previous_jobs].split(',')
+        status        = params[:status].split(',')
+        job = Testor.next_job(previous_jobs, status) || {}
         job.to_json(
           :only    => [:id],
           :methods => [:library, :platform, :adapter]
@@ -38,7 +40,7 @@ module Testor
       end
 
       post '/jobs/accept' do
-        Testor.accept_job(params[:id])
+        Testor.accept_job(params[:id], (params[:status] || '').split(','))
       end
 
       post '/jobs/report' do
