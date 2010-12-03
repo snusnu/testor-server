@@ -12,7 +12,9 @@ More to come ...
 
 ## Starting a client
 
-    cd testor-server
-    irb -r client.rb
-    >> Testor::Distribution::Client.new.start
+Follow the installation instructions in the
+[dm-dev README](http://github.com/datamapper/dm-dev) then run the
+following:
+
+    TESTOR_SERVER=http://testor.nextsnu.snusnu.info thor dm:ci:client
 
