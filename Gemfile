@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'json'
 gem 'sinatra'
 gem 'mustache'
+gem 'rest-client'
 
 gem 'dm-core',          :git => 'git://github.com/datamapper/dm-core'
 gem 'dm-migrations',    :git => 'git://github.com/datamapper/dm-migrations'

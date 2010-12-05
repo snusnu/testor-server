@@ -29,14 +29,21 @@ module Testor
         job = Testor.next_job(previous_jobs, status) || {}
         job.to_json(
           :only    => [:id],
-          :methods => [:library, :platform, :adapter]
+          :methods => [
+            :library_name,
+            :platform_name,
+            :adapter_name,
+            :revision,
+            :previous_status
+          ]
         )
       end
 
       post '/commits' do
-        push    = JSON.parse(params[:payload])
-        library = push['repository']['name']
-        Testor.register_commit(library)
+        push     = JSON.parse(params[:payload])
+        library  = push['repository']['name']
+        revision = push['commits'].first['id']
+        Testor.register_commit(library, revision)
       end
 
       post '/jobs/accept' do

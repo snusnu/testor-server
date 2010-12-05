@@ -8,6 +8,17 @@ file "config/config.yml" => "config/config.yml.sample" do |t|
   sh "cp #{t.prerequisites.first} #{t.name}"
 end
 
+require 'json'
+require 'rest-client'
+
+module GithubAPI
+  def self.head(repo)
+    JSON.parse(RestClient.get(
+      "http://github.com/api/v2/json/commits/list/datamapper/#{repo}/master"
+    ))['commits'].first['id']
+  end
+end
+
 namespace :db do
 
   desc "Import the initially available jobs"
@@ -44,14 +55,17 @@ namespace :db do
     Testor::Persistence::Library.create(
       :name      => 'dm-active_model',
       :url       => 'http://github.com/datamapper/dm-active_model',
+      :revision  => GithubAPI.head('dm-active_model'),
       :adapters  => [Testor::Persistence::Adapter.first(:name => 'in_memory')],
       :platforms => Testor::Persistence::Platform.all
     )
 
     %w[yaml sqlite postgres mysql oracle sqlserver].each do |adapter|
+      name = "dm-#{adapter}-adapter"
       Testor::Persistence::Library.create(
-        :name      => "dm-#{adapter}-adapter",
-        :url       => "http://github.com/datamapper/dm-#{adapter}-adapter",
+        :name      => name,
+        :url       => "http://github.com/datamapper/#{name}",
+        :revision  => GithubAPI.head(name),
         :adapters  => [Testor::Persistence::Adapter.first(:name => adapter)],
         :platforms => Testor::Persistence::Platform.all
       )
@@ -62,6 +76,7 @@ namespace :db do
       Testor::Persistence::Library.create(
         :name      => repository['name'],
         :url       => repository['url'],
+        :revision  => GithubAPI.head(repository['name']),
         :adapters  => Testor::Persistence::Adapter.all,
         :platforms => Testor::Persistence::Platform.all
       )

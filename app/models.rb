@@ -13,8 +13,8 @@ module Testor
     Persistence::Job.available(previous_jobs, status).first
   end
 
-  def self.register_commit(library_name)
-    Persistence::Job.register_commit(library_name)
+  def self.register_commit(library_name, revision)
+    Persistence::Job.register_commit(library_name, revision)
   end
 
   def self.accept_job(id, status)
@@ -67,9 +67,10 @@ module Testor
 
       include DataMapper::Resource
 
-      property :id,   Serial
-      property :name, String, :required => true
-      property :url,  URI,    :required => true
+      property :id,       Serial
+      property :name,     String, :required => true
+      property :url,      URI,    :required => true
+      property :revision, String, :required => true
 
       has n, :platforms, :through => Resource
       has n, :adapters,  :through => Resource
@@ -128,13 +129,21 @@ module Testor
         all(:id.not => previous_jobs) & matching_status
       end
 
-      def self.register_commit(gem_name)
-        all(:library => Library.first(:name => gem_name)).each { |job| job.update_status(MODIFIED) }
+      def self.register_commit(library_name, revision)
+        transaction do
+          library = Library.first(:name => library_name)
+          library.update(:head => revision)
+          all(:library => library).each do |job|
+            job.update_status(MODIFIED)
+          end
+        end
       end
 
       def create_report(report_attributes)
         transaction do
-          report = reports.create(report_attributes)
+          unless skip_report?(report_attributes)
+            report = reports.create(report_attributes)
+          end
           update_status(report_attributes['status'])
         end
       end
@@ -157,9 +166,29 @@ module Testor
         self.status == SKIPPED
       end
 
+      def skip_report?(attributes)
+        attributes['status'] == SKIPPED && previous_status == SKIPPED
+      end
+
       def previous_status
         report = reports.last(:order => [:created_at.asc])
         report ? report.status : FAIL
+      end
+
+      def library_name
+        library.name
+      end
+
+      def revision
+        library.revision
+      end
+
+      def platform_name
+        platform.name
+      end
+
+      def adapter_name
+        adapter.name
       end
 
     end
@@ -170,6 +199,7 @@ module Testor
 
       property :id,         Serial
       property :status,     String, :required => true, :set => [Job::PASS, Job::FAIL, Job::SKIPPED]
+      property :revision,   String, :required => true
       property :created_at, DateTime
 
       belongs_to :job
