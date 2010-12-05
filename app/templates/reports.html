@@ -13,12 +13,6 @@
         font-size: 120%;
       }
 
-      li {
-        float: left;
-        margin-right: 4em;
-        margin-bottom:5em;
-      }
-
       tr {
 
       }
@@ -35,7 +29,6 @@
       }
 
       td {
-        text-align: center;
         padding: 0.3em 0.4em;
         vertical-align: middle;
         border: solid 3px #fff;
@@ -47,6 +40,7 @@
         background-color: #A60D33;
         color: #fff;
         font-weight: 500;
+
       }
 
       td.pass {
@@ -69,31 +63,29 @@
     </style>
   </head>
   <body>
-    <ul>
-    {{#libraries}}
-    <li>
-      <h2>{{name}}</h2>
-      <table>
-
-        <tr>
-          <th></th>
-        {{#adapters}}
-          <th class="top">{{name}}</th>
-        {{/adapters}}
-        </tr>
-
-        {{#platforms}}
-        <tr>
-          <th>{{name}}</th>
-          {{#adapters}}
-          <td class="{{status}} {{previous_status}}">{{{history_link}}}</td>
-          {{/adapters}}
-        </tr>
-        {{/platforms}}
-
-      </table>
-    </li>
-    {{/libraries}}
-    </ul>
+    <h2>{{library_name}}</h2>
+    <table>
+      <tr>
+        <th class="top">Library</th>
+        <th class="top">Platform</th>
+        <th class="top">Adapter</th>
+        <th class="top">Date</th>
+        <th class="top">Revision</th>
+        <th class="top">Status</th>
+        <th class="top">Output</th>
+      </tr>
+      {{#reports}}
+      <tr>
+        <td>{{library_name}}</td>
+        <td>{{platform_name}}</td>
+        <td>{{adapter_name}}</td>
+        <td>{{{date}}}</td>
+        <td>{{revision}}</td>
+        <td class="{{status}}">{{status}}</td>
+        <td><a href="{{output_path}}">Output</a></td>
+      </tr>
+      {{/reports}}
+    </table>
   </body>
 </html>
+

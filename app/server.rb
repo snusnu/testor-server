@@ -39,6 +39,14 @@ module Testor
         )
       end
 
+      get '/jobs/:id/reports' do
+        Views::Reports.new(params[:id]).render
+      end
+
+      get '/reports/:id/output' do
+        Views::Reports::Output.new(params[:id]).render
+      end
+
       post '/commits' do
         push     = JSON.parse(params[:payload])
         library  = push['repository']['name']
