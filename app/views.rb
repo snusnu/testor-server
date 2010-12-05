@@ -12,6 +12,10 @@ module Testor
           f_date
         end
 
+        def commit_href(report)
+          "http://github.com/datamapper/#{report.library_name}/commit/#{report.revision}"
+        end
+
       end
 
       class Status < Mustache
@@ -78,7 +82,8 @@ module Testor
               :output_path   => "/reports/#{report.id}/output",
               :library_name  => report.library_name,
               :platform_name => report.platform_name,
-              :adapter_name  => report.adapter_name
+              :adapter_name  => report.adapter_name,
+              :commit_href   => commit_href(report)
             )
           end
         end
@@ -102,7 +107,8 @@ module Testor
               :date          => formatted_date(@report.created_at),
               :library_name  => @report.library_name,
               :platform_name => @report.platform_name,
-              :adapter_name  => @report.adapter_name
+              :adapter_name  => @report.adapter_name,
+              :commit_href   => commit_href(@report)
             )
           end
 
