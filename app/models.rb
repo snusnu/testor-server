@@ -200,7 +200,7 @@ module Testor
       property :id,         Serial
       property :status,     String, :required => true, :set => [Job::PASS, Job::FAIL, Job::SKIPPED]
       property :revision,   String, :required => true
-      property :output,     Text,   :required => true
+      property :output,     Text,   :required => true, :length => 2**24
       property :created_at, DateTime
 
       belongs_to :job
