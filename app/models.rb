@@ -132,7 +132,7 @@ module Testor
       def self.register_commit(library_name, revision)
         transaction do
           library = Library.first(:name => library_name)
-          library.update(:head => revision)
+          library.update(:revision => revision)
           all(:library => library).each do |job|
             job.update_status(MODIFIED)
           end
