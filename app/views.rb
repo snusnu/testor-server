@@ -72,7 +72,7 @@ module Testor
         attr_reader :reports
 
         def initialize(job_id)
-          @reports = Persistence::Report.all(:job_id  => job_id)
+          @reports = Persistence::Report.all(:job_id  => job_id, :order => [:created_at.desc])
         end
 
         def reports
