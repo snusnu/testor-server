@@ -6,6 +6,10 @@ database:
   host: localhost
   database: testor
 
+github:
+  id: github_oauth_id
+  secret: github_oauth_secret
+
 repositories: 
 - name: dm-core
   url: http://github.com/datamapper/dm-core

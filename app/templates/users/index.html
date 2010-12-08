@@ -1,0 +1,65 @@
+<html>
+  <head>
+
+    <title>Distributed Testing for DataMapper</title>
+
+    <style type="text/css">
+      body {
+        font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+
+      }
+
+      h2 {
+        font-size: 120%;
+      }
+
+      tr {
+
+      }
+
+      th {
+        font-weight: normal;
+        color: rgba(0,0,0,0.7);
+        vertical-align: middle;
+        text-align: right;
+      }
+
+      th.top {
+        text-align: center;
+      }
+
+      td {
+        padding: 0.3em 0.4em;
+        vertical-align: middle;
+        border: solid 3px #fff;
+        border-radius: 6px;
+        margin: 4px 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Since</th>
+        <th>Count</th>
+        <th>Hours</th>
+      </tr>
+      {{#users}}
+      <tr>
+        <td>{{login}}</td>
+        <td>{{{since}}}</td>
+        <td>{{count}}</td>
+        <td>{{hours}}</td>
+      </tr>
+      {{/users}}
+    </table>
+
+  </body>
+</html>
+

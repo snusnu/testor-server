@@ -6,6 +6,16 @@ module Testor
 
       module Helpers
 
+        def users
+          Persistence::User.all.map do |user|
+            user.attributes.merge(
+              :since => formatted_date(user.created_at),
+              :count => '???',
+              :hours => '???'
+            )
+          end
+        end
+
         def formatted_date(date, time = true, year = true)
           f_date = date.strftime("%d.%m.#{year ? '%Y' : ''}")
           f_date += " - <span class='time'>#{date.strftime('%H:%M')}</span>" if time
@@ -15,6 +25,14 @@ module Testor
         def commit_href(report)
           "http://github.com/datamapper/#{report.library_name}/commit/#{report.revision}"
         end
+
+      end
+
+      class Home < Mustache
+
+        include Views::Helpers
+
+        self.template_file = Pathname(__FILE__).dirname.join('templates/home.html')
 
       end
 
@@ -110,6 +128,28 @@ module Testor
               :adapter_name  => @report.adapter_name,
               :commit_href   => commit_href(@report)
             )
+          end
+
+        end
+
+      end
+
+      class Users < Mustache
+
+        include Views::Helpers
+
+        self.template_file = Pathname(__FILE__).dirname.join('templates/users/index.html')
+
+        class Edit < Mustache
+
+          include Views::Helpers
+
+          self.template_file = Pathname(__FILE__).dirname.join('templates/users/edit.html')
+
+          attr_reader :user
+
+          def initialize(user)
+            @user = user
           end
 
         end

@@ -63,6 +63,23 @@ module Testor
       stream == 'stdout' ? $stdout : stream
     end
 
+    class User
+
+      include DataMapper::Resource
+
+      property :login,      String, :key => true
+      property :token,      String, :default => lambda { |_, _|
+        while token = Digest::SHA1.hexdigest(rand(36**8).to_s(36))[4..20]
+          return token if first(:token => token).nil?
+        end
+      }
+
+      property :created_at, DateTime
+
+      has n, :reports
+
+    end
+
     class Library
 
       include DataMapper::Resource
@@ -203,6 +220,7 @@ module Testor
       property :output,     Text,   :required => true, :length => 2**24
       property :created_at, DateTime
 
+      belongs_to :user
       belongs_to :job
 
       def library_name

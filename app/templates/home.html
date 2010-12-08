@@ -1,0 +1,93 @@
+<html>
+  <head>
+
+    <title>Distributed Testing for DataMapper</title>
+
+    <style type="text/css">
+      body {
+        font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+
+      }
+
+      h2 {
+        font-size: 120%;
+      }
+
+      tr {
+
+      }
+
+      th {
+        font-weight: normal;
+        color: rgba(0,0,0,0.7);
+        vertical-align: middle;
+        text-align: right;
+      }
+
+      th.top {
+        text-align: center;
+      }
+
+      td {
+        padding: 0.3em 0.4em;
+        vertical-align: middle;
+        border: solid 3px #fff;
+        border-radius: 6px;
+        margin: 4px 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <h1>This is BETA stuff!</h1>
+
+    <p>You've reached the server that wants to be responsible for distributing DataMapper tests</p>
+
+    <h2>Prerequisites</h2>
+
+    <p>There's a few things to care about before logging in!</p>
+
+    <ul>
+      <li>Be patient!</li>
+      <li>Read the instructions in the <a href="http://github.com/datamapper/dm-dev">dm-dev readme</a>
+      <li>Be patient!</li>
+    </ul>
+
+    <h2>Rewards</h2>
+
+    <p>
+      <strong><a href="/status">Browse</a></strong> the current test results
+    </p>
+
+    <h2>How to help us</h2>
+
+    <p>
+      <strong><a href="/auth/github">Login via Github</a></strong> and help us test <a href="http://github.com/datamapper">DataMapper</a>
+    </p>
+
+    <h3>Currently registered users</h3>
+
+    <table>
+      <tr>
+        <th class="top">Name</th>
+        <th class="top">Since</th>
+        <th class="top">Count</th>
+        <th class="top">Hours</th>
+      </tr>
+      {{#users}}
+      <tr>
+        <td><a href="http://github.com/{{login}}">{{login}}</a></td>
+        <td>{{{since}}}</td>
+        <td>{{count}}</td>
+        <td>{{hours}}</td>
+      </tr>
+      {{/users}}
+    </table>
+
+  </body>
+</html>
+
