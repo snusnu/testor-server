@@ -19,12 +19,12 @@ module Testor
 
   def self.accept_job(id, status)
     job = Persistence::Job.get(id)
-    { 'accepted' => job.accept(status) }.to_json
+    job.accept(status)
   end
 
-  def self.report_job(report)
+  def self.report_job(user, report)
     job = Persistence::Job.get(report[:job_id])
-    job.create_report(report)
+    job.create_report(user, report)
   end
 
   module Persistence
@@ -156,10 +156,10 @@ module Testor
         end
       end
 
-      def create_report(report_attributes)
+      def create_report(user, report_attributes)
         transaction do
           unless skip_report?(report_attributes)
-            report = reports.create(report_attributes)
+            report = reports.create(report_attributes.merge(:user => user))
           end
           update_status(report_attributes['status'])
         end

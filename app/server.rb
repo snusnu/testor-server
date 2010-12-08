@@ -29,8 +29,8 @@ module Testor
 
       helpers do
 
-        def authenticate_params(user)
-          authenticate(user[:login], user[:token])
+        def authenticate_params(credentials)
+          authenticate(credentials[:login], credentials[:token])
         end
 
         def authenticate_session(login)
@@ -45,6 +45,10 @@ module Testor
 
         def authorized?(user, token)
           user.token == token
+        end
+
+        def requested_status
+          (params[:status] || '').split(',')
         end
 
       end
@@ -77,8 +81,7 @@ module Testor
 
       get '/jobs/next' do
         previous_jobs = params[:previous_jobs].split(',')
-        status        = params[:status].split(',')
-        job = Testor.next_job(previous_jobs, status) || {}
+        job = Testor.next_job(previous_jobs, requested_status) || {}
         job.to_json(
           :only    => [:id],
           :methods => [
@@ -107,13 +110,13 @@ module Testor
       end
 
       post '/jobs/accept' do
-        authenticate_params(params[:user])
-        Testor.accept_job(params[:id], (params[:status] || '').split(','))
+        authenticate_params(params[:credentials])
+        { 'accepted' => Testor.accept_job(params[:id], requested_status) }.to_json
       end
 
       post '/jobs/report' do
-        authenticate_params(params[:user])
-        Testor.report_job(params[:report])
+        user = authenticate_params(params[:credentials])
+        Testor.report_job(user, params[:report])
       end
 
     end
