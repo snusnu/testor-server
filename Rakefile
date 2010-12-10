@@ -11,6 +11,9 @@ end
 require 'json'
 require 'rest-client'
 
+require 'config'
+require 'models'
+
 module GithubAPI
   def self.head(repo)
     JSON.parse(RestClient.get(
@@ -21,12 +24,14 @@ end
 
 namespace :db do
 
+  desc "Auto-upgrade the database"
+  task :autoupgrade do
+    Testor::Persistence.setup(log_stream, log_level)
+    DataMapper.auto_upgrade!
+  end
+
   desc "Import the initially available jobs"
   task :seed do
-
-    require 'config'
-    require 'models'
-
     Testor::Persistence.create(log_stream, log_level)
 
     Testor::Persistence::Platform.create :name => '1.8.7'
