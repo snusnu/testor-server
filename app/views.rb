@@ -22,6 +22,14 @@ module Testor
           f_date
         end
 
+        def formatted_time(time)
+          hours   = (time / 3600).to_i
+          minutes = (time / 60 - hours * 60).to_i
+          seconds = (time - (minutes * 60 + hours * 3600))
+
+          "%02d:%02d:%02d" % [hours, minutes, seconds]
+        end
+
         def commit_href(report)
           "http://github.com/datamapper/#{report.library_name}/commit/#{report.revision}"
         end
@@ -101,7 +109,8 @@ module Testor
               :library_name  => report.library_name,
               :platform_name => report.platform_name,
               :adapter_name  => report.adapter_name,
-              :commit_href   => commit_href(report)
+              :commit_href   => commit_href(report),
+              :duration      => formatted_time(report.duration)
             )
           end
         end
@@ -126,7 +135,8 @@ module Testor
               :library_name  => @report.library_name,
               :platform_name => @report.platform_name,
               :adapter_name  => @report.adapter_name,
-              :commit_href   => commit_href(@report)
+              :commit_href   => commit_href(@report),
+              :duration      => formatted_time(@report.duration)
             )
           end
 

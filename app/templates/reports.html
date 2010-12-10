@@ -73,6 +73,7 @@
         <th class="top">User</th>
         <th class="top">Revision</th>
         <th class="top">Status</th>
+        <th class="top">Duration</th>
         <th class="top">Output</th>
       </tr>
       {{#reports}}
@@ -84,6 +85,7 @@
         <td><a href="http://github.com/{{{user_login}}}">{{user_login}}</a></td>
         <td><a href="{{commit_href}}">{{revision}}</a></td>
         <td class="{{status}}">{{status}}</td>
+        <td>{{{duration}}}</td>
         <td><a href="{{output_path}}">Output</a></td>
       </tr>
       {{/reports}}
