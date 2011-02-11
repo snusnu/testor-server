@@ -6,6 +6,7 @@ require 'dm-timestamps'
 require 'dm-transactions'
 require 'dm-types'
 require 'dm-serializer/to_json'
+require 'dm-zone-types'
 
 module Testor
 
@@ -74,7 +75,7 @@ module Testor
         end
       }
 
-      property :created_at, DateTime
+      property :created_at, ZonedTime
 
       has n, :reports
 
@@ -219,7 +220,7 @@ module Testor
       property :revision,   String,  :required => true
       property :output,     Text,    :required => true, :length => 2**24
       property :duration,   Integer, :required => true
-      property :created_at, DateTime
+      property :created_at, ZonedTime
 
       belongs_to :user
       belongs_to :job
